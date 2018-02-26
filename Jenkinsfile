@@ -29,8 +29,7 @@ pipeline {
         label 'apache'
       }
       steps {
-        sh "mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}"
-        sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+        sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/"
       }
     }
     stage('Running on CentOS') {
@@ -38,7 +37,7 @@ pipeline {
         label 'CentOS'
       }
       steps {
-        sh "wget http://eyal3008a/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "wget http://eyal3008a/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -50,22 +49,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"
-      }
-    }
-    stage('Promote development branch to master') {
-      agent {
-        label 'apache'
-      }
-      when {
-        branch 'development'
-      }
-      steps {
-        sh 'git stash'
-        sh 'git checkout development'
-        sh 'git checkout master'
-        sh 'git merge development'
-        sh 'git push origin master'
+        sh "cp /var/www/html/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"
       }
     }
   }
