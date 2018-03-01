@@ -67,6 +67,7 @@ pipeline {
       steps {
         sh 'git stash'
         sh 'git checkout development'
+        sh 'git pull origin'
         sh 'git checkout master'
         sh 'git merge development'
         sh 'git push origin master'
